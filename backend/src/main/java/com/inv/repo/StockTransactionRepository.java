@@ -52,4 +52,10 @@ public class StockTransactionRepository {
                 "SELECT * FROM StockTransaction WHERE product_id = ? ORDER BY transaction_date DESC",
                 ROW_MAPPER, productId);
     }
+
+    public List<StockTransaction> findByReferenceId(String referenceId) {
+        return jdbc.query(
+                "SELECT * FROM StockTransaction WHERE reference_id = ? ORDER BY transaction_date DESC",
+                ROW_MAPPER, referenceId);
+    }
 }
