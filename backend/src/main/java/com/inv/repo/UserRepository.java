@@ -48,7 +48,7 @@ public class UserRepository {
     }
 
     public List<Staff> findAll() {
-        return jdbc.query("SELECT * FROM Staff", ROW_MAPPER);
+        return jdbc.query("SELECT * FROM Staff ORDER BY staff_name", ROW_MAPPER);
     }
 
     public void updateActive(String staffId, boolean active) {
