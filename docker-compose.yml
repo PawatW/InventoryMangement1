@@ -10,7 +10,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      # Files in initdb.d run in alphabetical order on first init
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./mock-data.sql:/docker-entrypoint-initdb.d/02-mock-data.sql:ro
     ports:
       - "5432:5432"
     healthcheck:
@@ -32,7 +34,7 @@ services:
       SPRING_DATASOURCE_USERNAME: invuser
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
-      CLOUDINARY_URL: ${CLOUDINARY_URL}
+      CLOUDINARY_URL: ${CLOUDINARY_URL:-cloudinary://key:secret@cloud}
       CORS_ALLOWED_ORIGINS: http://localhost:3000
     ports:
       - "8080:8080"
@@ -41,11 +43,12 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        # API URL must be set at build time (Next.js bakes NEXT_PUBLIC_ vars)
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
     restart: unless-stopped
     depends_on:
       - backend
-    environment:
-      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
     ports:
       - "3000:3000"
 
