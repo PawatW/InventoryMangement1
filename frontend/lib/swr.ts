@@ -1,23 +1,16 @@
 import useSWR, { SWRConfiguration } from 'swr';
 import { apiFetch, ApiError } from './api';
-import { isTokenExpired } from './auth';
-
-function authedFetcher<T>(path: string): Promise<T> {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  if (token && isTokenExpired(token)) {
-    localStorage.removeItem('token');
-    window.location.href = '/login';
-    return Promise.reject(new ApiError(401, 'Session expired'));
-  }
-  return apiFetch<T>(path);
-}
 
 export function useAuthedSWR<T>(
   path: string | null,
+  token: string | null,
   config?: SWRConfiguration,
 ) {
-  return useSWR<T, ApiError>(path, authedFetcher, {
-    revalidateOnFocus: false,
-    ...config,
-  });
+  const key = path && token ? [path, token] : null;
+
+  return useSWR<T, ApiError>(
+    key,
+    ([url, tkn]: [string, string]) => apiFetch<T>(url, { token: tkn }),
+    { revalidateOnFocus: false, ...config },
+  );
 }

@@ -1,14 +1,20 @@
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8080';
+  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
 
 export const ROLE_LABELS: Record<string, string> = {
-  ADMIN: 'Admin',
-  MANAGER: 'Manager',
-  STAFF: 'Staff',
+  ADMIN:       'Admin',
+  SALES:       'Sales',
+  TECHNICIAN:  'Technician',
+  FOREMAN:     'Foreman',
+  WAREHOUSE:   'Warehouse',
+  PROCUREMENT: 'Procurement',
 };
 
 export const ROLE_COLORS: Record<string, string> = {
-  ADMIN: 'bg-primary-100 text-primary-800',
-  MANAGER: 'bg-yellow-100 text-yellow-800',
-  STAFF: 'bg-gray-100 text-gray-800',
+  ADMIN:       'bg-purple-100 text-purple-700',
+  SALES:       'bg-amber-100 text-amber-700',
+  TECHNICIAN:  'bg-emerald-100 text-emerald-700',
+  FOREMAN:     'bg-sky-100 text-sky-700',
+  WAREHOUSE:   'bg-rose-100 text-rose-700',
+  PROCUREMENT: 'bg-indigo-100 text-indigo-700',
 };

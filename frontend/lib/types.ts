@@ -1,5 +1,3 @@
-// ── Domain Interfaces ───────────────────────────────────────
-
 export interface Staff {
   staffId: string;
   staffName: string;
@@ -39,6 +37,7 @@ export interface Product {
   supplierName?: string;
   imageUrl?: string;
   active: boolean;
+  createdByStaffId?: string;
 }
 
 export interface Order {
@@ -50,7 +49,6 @@ export interface Order {
   customerName?: string;
   staffId?: string;
   staffName?: string;
-  items?: OrderItem[];
 }
 
 export interface OrderItem {
@@ -78,7 +76,6 @@ export interface Request {
   approvedBy?: string;
   approvedByName?: string;
   approvedDate?: string;
-  items?: RequestItem[];
 }
 
 export interface RequestItem {
@@ -89,6 +86,32 @@ export interface RequestItem {
   quantity: number;
   fulfilledQty: number;
   remainingQty: number;
+}
+
+export interface StockTransaction {
+  transactionId: string;
+  transactionDate: string;
+  type: 'IN' | 'OUT' | 'ADJUST';
+  productId: string;
+  productName?: string;
+  quantity: number;
+  staffId: string;
+  staffName?: string;
+  description?: string;
+  batchId?: string;
+  referenceId?: string;
+}
+
+export interface ProductBatch {
+  batchId: string;
+  productId: string;
+  productName?: string;
+  poId?: string;
+  receivedDate: string;
+  quantityIn: number;
+  quantityRemaining: number;
+  unitCost: number;
+  expiryDate?: string;
 }
 
 export interface PurchaseOrder {
@@ -111,30 +134,4 @@ export interface PurchaseItem {
   productName?: string;
   quantity: number;
   unitPrice: number;
-}
-
-export interface ProductBatch {
-  batchId: string;
-  productId: string;
-  productName?: string;
-  poId?: string;
-  receivedDate: string;
-  quantityIn: number;
-  quantityRemaining: number;
-  unitCost: number;
-  expiryDate?: string;
-}
-
-export interface StockTransaction {
-  transactionId: string;
-  transactionDate: string;
-  type: 'IN' | 'OUT' | 'ADJUST';
-  productId: string;
-  productName?: string;
-  quantity: number;
-  staffId: string;
-  staffName?: string;
-  description?: string;
-  batchId?: string;
-  referenceId?: string;
 }

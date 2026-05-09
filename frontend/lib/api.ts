@@ -4,57 +4,75 @@ export class ApiError extends Error {
   constructor(
     public readonly status: number,
     message: string,
-    public readonly errors?: Record<string, string>,
   ) {
     super(message);
     this.name = 'ApiError';
   }
 }
 
-function getAuthHeader(): Record<string, string> {
-  if (typeof window === 'undefined') return {};
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
+interface ApiFetchOptions extends Omit<RequestInit, 'headers'> {
+  token?: string;
+  headers?: Record<string, string>;
 }
 
 export async function apiFetch<T>(
   path: string,
-  options: RequestInit = {},
+  options: ApiFetchOptions = {},
 ): Promise<T> {
+  const { token, headers: extraHeaders, ...rest } = options;
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...extraHeaders,
+  };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
   const res = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...getAuthHeader(),
-      ...(options.headers as Record<string, string> | undefined),
-    },
+    ...rest,
+    headers,
   });
+
+  if (res.status === 204) return undefined as T;
 
   if (!res.ok) {
     let message = res.statusText;
-    let errors: Record<string, string> | undefined;
     try {
       const body = await res.json();
       message = body.message ?? message;
-      errors = body.errors;
     } catch {
-      // body is not JSON — keep statusText
+      // keep statusText
     }
-    throw new ApiError(res.status, message, errors);
+    throw new ApiError(res.status, message);
   }
 
-  // 204 No Content
-  if (res.status === 204) return undefined as T;
   return res.json() as Promise<T>;
 }
 
-export async function uploadFile(path: string, file: File): Promise<unknown> {
+export async function uploadProductImage(
+  file: File,
+  token: string,
+): Promise<{ url: string }> {
+  return uploadFile('/products/upload-image', file, token);
+}
+
+export async function uploadPurchaseOrderSlip(
+  file: File,
+  token: string,
+): Promise<{ url: string }> {
+  return uploadFile('/purchase-orders/upload-slip', file, token);
+}
+
+async function uploadFile(
+  path: string,
+  file: File,
+  token: string,
+): Promise<{ url: string }> {
   const formData = new FormData();
   formData.append('file', file);
 
   const res = await fetch(`${API_BASE_URL}${path}`, {
     method: 'POST',
-    headers: getAuthHeader(),
+    headers: { Authorization: `Bearer ${token}` },
     body: formData,
   });
 
@@ -63,9 +81,7 @@ export async function uploadFile(path: string, file: File): Promise<unknown> {
     try {
       const body = await res.json();
       message = body.message ?? message;
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
     throw new ApiError(res.status, message);
   }
 
