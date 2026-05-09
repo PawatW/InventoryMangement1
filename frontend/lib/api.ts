@@ -10,25 +10,27 @@ export class ApiError extends Error {
   }
 }
 
-interface ApiFetchOptions extends Omit<RequestInit, 'headers'> {
+interface ApiFetchOptions extends Omit<RequestInit, 'headers' | 'body'> {
   token?: string;
   headers?: Record<string, string>;
+  body?: BodyInit | null;
 }
 
 export async function apiFetch<T>(
   path: string,
   options: ApiFetchOptions = {},
 ): Promise<T> {
-  const { token, headers: extraHeaders, ...rest } = options;
+  const { token, headers: extraHeaders, body, ...rest } = options;
 
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...extraHeaders,
-  };
+  const isFormData = body instanceof FormData;
+  const headers: Record<string, string> = isFormData
+    ? { ...extraHeaders }
+    : { 'Content-Type': 'application/json', ...extraHeaders };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...rest,
+    body: body as BodyInit,
     headers,
   });
 
