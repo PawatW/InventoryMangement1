@@ -76,7 +76,7 @@ export default function StaffPage() {
         </div>
         {!staff ? <div className="p-4"><TableSkeleton /></div> : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[640px]">
               <thead className="bg-gray-50 text-gray-500 text-xs">
                 <tr>{['รหัส','ชื่อ','อีเมล','เบอร์โทร','บทบาท','สถานะ','การดำเนินการ'].map(h =>
                   <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>

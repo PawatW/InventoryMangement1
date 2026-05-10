@@ -83,32 +83,36 @@ export default function CustomersPage() {
             className="w-full sm:w-64 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
         </div>
         {!customers ? <div className="p-4"><TableSkeleton /></div> : (
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-500 text-xs">
-              <tr>{['รหัส','ชื่อ','เบอร์โทร','อีเมล','การดำเนินการ'].map(h =>
-                <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {filtered.length === 0 ? (
-                <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">ไม่พบข้อมูล</td></tr>
-              ) : filtered.map(c => (
-                <tr key={c.customerId} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 text-gray-500 font-mono text-xs">{c.customerId}</td>
-                  <td className="px-4 py-3 font-medium text-gray-800">{c.customerName}</td>
-                  <td className="px-4 py-3 text-gray-500">{c.phone ?? '—'}</td>
-                  <td className="px-4 py-3 text-gray-500">{c.email ?? '—'}</td>
-                  <td className="px-4 py-3 flex gap-2">
-                    {canEdit && <>
-                      <button onClick={() => openEdit(c)}
-                        className="px-3 py-1 border border-gray-200 rounded-lg text-xs hover:bg-gray-50">แก้ไข</button>
-                      <button onClick={() => handleDeactivate(c)}
-                        className="px-3 py-1 border border-red-200 text-red-600 rounded-lg text-xs hover:bg-red-50">ลบ</button>
-                    </>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[520px]">
+              <thead className="bg-gray-50 text-gray-500 text-xs">
+                <tr>{['รหัส','ชื่อ','เบอร์โทร','อีเมล','การดำเนินการ'].map(h =>
+                  <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filtered.length === 0 ? (
+                  <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400">ไม่พบข้อมูล</td></tr>
+                ) : filtered.map(c => (
+                  <tr key={c.customerId} className="hover:bg-gray-50">
+                    <td className="px-4 py-3 text-gray-500 font-mono text-xs">{c.customerId}</td>
+                    <td className="px-4 py-3 font-medium text-gray-800">{c.customerName}</td>
+                    <td className="px-4 py-3 text-gray-500">{c.phone ?? '—'}</td>
+                    <td className="px-4 py-3 text-gray-500">{c.email ?? '—'}</td>
+                    <td className="px-4 py-3">
+                      {canEdit && (
+                        <div className="flex gap-2">
+                          <button onClick={() => openEdit(c)}
+                            className="px-3 py-1 border border-gray-200 rounded-lg text-xs hover:bg-gray-50">แก้ไข</button>
+                          <button onClick={() => handleDeactivate(c)}
+                            className="px-3 py-1 border border-red-200 text-red-600 rounded-lg text-xs hover:bg-red-50">ลบ</button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

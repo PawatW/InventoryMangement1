@@ -171,7 +171,7 @@ export default function RequestsPage() {
         </div>
         {!requests ? <div className="p-4"><TableSkeleton /></div> : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[560px]">
               <thead className="bg-gray-50 text-gray-500 text-xs">
                 <tr>{['รหัส','วันที่','พนักงาน','ลูกค้า','สถานะ','การดำเนินการ'].map(h =>
                   <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>

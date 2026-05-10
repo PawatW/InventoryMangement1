@@ -153,7 +153,7 @@ export default function InventoryPage() {
         </div>
         {!products ? <div className="p-4"><TableSkeleton /></div> : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[760px]">
               <thead className="bg-gray-50 text-gray-500 text-xs">
                 <tr>{['รหัส','ชื่อสินค้า','หน่วย','ราคาทุน','ราคาขาย','คงเหลือ','สถานะ','การดำเนินการ'].map(h =>
                   <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>

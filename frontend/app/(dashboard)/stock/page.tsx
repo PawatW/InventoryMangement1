@@ -99,13 +99,13 @@ export default function StockPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">สต็อกสินค้า</h1>
           <p className="text-gray-500 text-sm mt-1">รายการเคลื่อนไหวสินค้า</p>
         </div>
         {canEdit && (
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <button onClick={openStockIn}
               className="px-4 py-2 bg-primary-600 text-white text-sm rounded-lg hover:bg-primary-700 transition-colors font-medium">
               + รับสินค้าเข้าคลัง
@@ -138,7 +138,7 @@ export default function StockPage() {
         </div>
         {!transactions ? <div className="p-4"><TableSkeleton /></div> : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[560px]">
               <thead className="bg-gray-50 text-gray-500 text-xs">
                 <tr>{['วันที่','ประเภท','สินค้า','จำนวน','พนักงาน','หมายเหตุ'].map(h =>
                   <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>

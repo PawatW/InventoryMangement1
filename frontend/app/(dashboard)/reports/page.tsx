@@ -109,7 +109,8 @@ export default function ReportsPage() {
           </p>
         </div>
         {!transactions ? <div className="p-4"><TableSkeleton /></div> : (
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[360px]">
             <thead className="bg-gray-50 text-gray-500 text-xs">
               <tr>{['สินค้า','จำนวนเบิก (ชิ้น)','จำนวนครั้ง'].map(h =>
                 <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>
@@ -126,6 +127,7 @@ export default function ReportsPage() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 
@@ -136,7 +138,7 @@ export default function ReportsPage() {
         </div>
         {!transactions ? <div className="p-4"><TableSkeleton /></div> : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[560px]">
               <thead className="bg-gray-50 text-gray-500 text-xs">
                 <tr>{['วันที่','สินค้า','จำนวน','พนักงาน','อ้างอิง'].map(h =>
                   <th key={h} className="px-4 py-3 text-left font-medium">{h}</th>)}</tr>
