@@ -86,7 +86,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT,  "/requests/*/close").hasAnyRole("TECHNICIAN", "ADMIN")
 
                 // ── SALES or ADMIN ────────────────────────────────────────
-                .requestMatchers(HttpMethod.GET,  "/orders/confirmed").hasAnyRole("SALES", "ADMIN")
+                .requestMatchers(HttpMethod.GET,  "/orders/my").hasAnyRole("SALES", "ADMIN")
+                .requestMatchers(HttpMethod.GET,  "/orders/confirmed").hasAnyRole("SALES", "TECHNICIAN", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/orders").hasAnyRole("SALES", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/customers").hasAnyRole("SALES", "ADMIN")
                 .requestMatchers(HttpMethod.GET,  "/customers").hasAnyRole("SALES", "ADMIN")
@@ -96,9 +97,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/orders/*/close").hasRole("SALES")
 
                 // ── WAREHOUSE only ────────────────────────────────────────
-                .requestMatchers(HttpMethod.POST, "/stock/in").hasRole("WAREHOUSE")
-                .requestMatchers(HttpMethod.POST, "/stock/fulfill").hasRole("WAREHOUSE")
-                .requestMatchers(HttpMethod.POST, "/stock/fulfill-batch").hasRole("WAREHOUSE")
+                .requestMatchers(HttpMethod.POST, "/stock/in").hasAnyRole("WAREHOUSE", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/stock/adjust").hasAnyRole("WAREHOUSE", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/stock/fulfill").hasAnyRole("WAREHOUSE", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/stock/fulfill-batch").hasAnyRole("WAREHOUSE", "ADMIN")
 
                 // ── WAREHOUSE or ADMIN ────────────────────────────────────
                 .requestMatchers(HttpMethod.GET,  "/stock/transactions").hasAnyRole("WAREHOUSE", "ADMIN")

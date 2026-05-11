@@ -51,7 +51,7 @@ public class StockService {
 
     @Transactional
     public void addStockIn(String productId, int quantity, String staffId,
-                           String supplierId, String note) {
+                           String supplierId, BigDecimal unitCost, String description) {
         productRepository.findById(productId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Product not found: " + productId));
@@ -65,15 +65,15 @@ public class StockService {
         batch.setPoId(null);
         batch.setQuantityIn(quantity);
         batch.setQuantityRemaining(quantity);
-        batch.setUnitCost(BigDecimal.ZERO);
+        batch.setUnitCost(unitCost != null ? unitCost : BigDecimal.ZERO);
         batchRepository.save(batch);
 
         StringBuilder desc = new StringBuilder("Stock in");
         if (supplierId != null && !supplierId.isBlank()) {
             desc.append(" from supplier ").append(supplierId);
         }
-        if (note != null && !note.isBlank()) {
-            desc.append(" - ").append(note);
+        if (description != null && !description.isBlank()) {
+            desc.append(" - ").append(description);
         }
 
         StockTransaction tx = new StockTransaction();
@@ -84,6 +84,24 @@ public class StockService {
         tx.setStaffId(staffId);
         tx.setDescription(desc.toString());
         tx.setBatchId(batchId);
+        txRepository.save(tx);
+    }
+
+    @Transactional
+    public void adjustStock(String productId, int delta, String staffId, String description) {
+        productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Product not found: " + productId));
+
+        productRepository.updateQuantity(productId, delta);
+
+        StockTransaction tx = new StockTransaction();
+        tx.setTransactionId(IdGenerator.generate("ST-"));
+        tx.setType("ADJUST");
+        tx.setProductId(productId);
+        tx.setQuantity(Math.abs(delta));
+        tx.setStaffId(staffId);
+        tx.setDescription(description != null ? description : "Manual adjustment");
         txRepository.save(tx);
     }
 

@@ -2,6 +2,7 @@ package com.inv.controller;
 
 import com.inv.dto.request.FulfillBatchRequest;
 import com.inv.dto.request.FulfillRequest;
+import com.inv.dto.request.StockAdjustRequest;
 import com.inv.dto.request.StockInRequest;
 import com.inv.model.Request;
 import com.inv.model.StockTransaction;
@@ -38,7 +39,16 @@ public class StockController {
     public ResponseEntity<Void> stockIn(@Valid @RequestBody StockInRequest req,
                                         Principal principal) {
         stockService.addStockIn(req.getProductId(), req.getQuantity(),
-                principal.getName(), req.getSupplierId(), req.getNote());
+                principal.getName(), req.getSupplierId(),
+                req.getUnitCost(), req.getDescription());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/adjust")
+    public ResponseEntity<Void> adjust(@Valid @RequestBody StockAdjustRequest req,
+                                       Principal principal) {
+        stockService.adjustStock(req.getProductId(), req.getQuantity(),
+                principal.getName(), req.getDescription());
         return ResponseEntity.noContent().build();
     }
 
