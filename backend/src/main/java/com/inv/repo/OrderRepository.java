@@ -55,6 +55,12 @@ public class OrderRepository {
                 ORDER_MAPPER, orderId).stream().findFirst();
     }
 
+    public List<Order> findByStaffId(String staffId) {
+        return jdbc.query(
+                "SELECT * FROM \"Order\" WHERE staff_id = ? ORDER BY order_date DESC",
+                ORDER_MAPPER, staffId);
+    }
+
     public List<Order> findConfirmedOrders() {
         return jdbc.query(
                 "SELECT * FROM \"Order\" WHERE status = 'Confirmed' ORDER BY order_date DESC",

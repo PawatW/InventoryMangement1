@@ -59,6 +59,10 @@ public class OrderService {
         return new CreateOrderResponse(orderId);
     }
 
+    public List<Order> getMyOrders(String staffId) {
+        return orderRepository.findByStaffId(staffId);
+    }
+
     public List<Order> getConfirmedOrders() {
         return orderRepository.findConfirmedOrders();
     }

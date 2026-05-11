@@ -35,6 +35,11 @@ public class OrderController {
                 .body(orderService.createOrder(req, principal.getName()));
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<List<Order>> getMy(Principal principal) {
+        return ResponseEntity.ok(orderService.getMyOrders(principal.getName()));
+    }
+
     @GetMapping("/confirmed")
     public ResponseEntity<List<Order>> getConfirmed() {
         return ResponseEntity.ok(orderService.getConfirmedOrders());
