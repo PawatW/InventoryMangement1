@@ -137,7 +137,7 @@ VALUES (
     'ADMIN',
     NULL,
     'admin@company.com',
-    '$2a$12$2dPBM/Zr4RxkuEJM1hSj5.AuR9JD5Xj1HpNvz.O6qPJFYTFHgkCsy',
+    '$2a$12$XjqpAEgrAfjYiwizTtrR0e/uAS8ZMho5QH9vqG52/B196DQnvecCG',
     TRUE
 )
 ON CONFLICT (email) DO NOTHING;

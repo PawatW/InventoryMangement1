@@ -7,11 +7,11 @@
 -- Staff (พนักงาน)
 -- ============================================================
 INSERT INTO Staff (staff_id, staff_name, role, phone, email, password, active) VALUES
-('STF002', 'สมชาย คงดี',        'WAREHOUSE',   '081-111-0002', 'warehouse@company.com',   '$2a$12$2dPBM/Zr4RxkuEJM1hSj5.AuR9JD5Xj1HpNvz.O6qPJFYTFHgkCsy', TRUE),
-('STF003', 'สมหญิง ใจดี',       'PROCUREMENT', '081-111-0003', 'procurement@company.com', '$2a$12$2dPBM/Zr4RxkuEJM1hSj5.AuR9JD5Xj1HpNvz.O6qPJFYTFHgkCsy', TRUE),
-('STF004', 'สมศักดิ์ รักงาน',   'SALES',       '081-111-0004', 'sales@company.com',       '$2a$12$2dPBM/Zr4RxkuEJM1hSj5.AuR9JD5Xj1HpNvz.O6qPJFYTFHgkCsy', TRUE),
-('STF005', 'วิชัย มีฝีมือ',     'TECHNICIAN',  '081-111-0005', 'technician@company.com',  '$2a$12$2dPBM/Zr4RxkuEJM1hSj5.AuR9JD5Xj1HpNvz.O6qPJFYTFHgkCsy', TRUE),
-('STF006', 'อภิชาต ดูแล',       'FOREMAN',     '081-111-0006', 'foreman@company.com',     '$2a$12$2dPBM/Zr4RxkuEJM1hSj5.AuR9JD5Xj1HpNvz.O6qPJFYTFHgkCsy', TRUE)
+('STF002', 'สมชาย คงดี',        'WAREHOUSE',   '081-111-0002', 'warehouse@company.com',   '$2a$12$XjqpAEgrAfjYiwizTtrR0e/uAS8ZMho5QH9vqG52/B196DQnvecCG', TRUE),
+('STF003', 'สมหญิง ใจดี',       'PROCUREMENT', '081-111-0003', 'procurement@company.com', '$2a$12$XjqpAEgrAfjYiwizTtrR0e/uAS8ZMho5QH9vqG52/B196DQnvecCG', TRUE),
+('STF004', 'สมศักดิ์ รักงาน',   'SALES',       '081-111-0004', 'sales@company.com',       '$2a$12$XjqpAEgrAfjYiwizTtrR0e/uAS8ZMho5QH9vqG52/B196DQnvecCG', TRUE),
+('STF005', 'วิชัย มีฝีมือ',     'TECHNICIAN',  '081-111-0005', 'technician@company.com',  '$2a$12$XjqpAEgrAfjYiwizTtrR0e/uAS8ZMho5QH9vqG52/B196DQnvecCG', TRUE),
+('STF006', 'อภิชาต ดูแล',       'FOREMAN',     '081-111-0006', 'foreman@company.com',     '$2a$12$XjqpAEgrAfjYiwizTtrR0e/uAS8ZMho5QH9vqG52/B196DQnvecCG', TRUE)
 ON CONFLICT (email) DO NOTHING;
 
 -- ============================================================
